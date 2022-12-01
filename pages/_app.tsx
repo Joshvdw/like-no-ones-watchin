@@ -11,6 +11,8 @@ import { useThrottledCallback } from "use-debounce";
 import { getPositions } from "../components/singleComponents/Utils/Utils";
 import ErrorMessage from "../components/singleComponents/ErrorBoundary/ErrorMessage";
 
+import UI from "../components/Home/UI";
+
 function MyApp({ Component, pageProps }: AppProps) {
   // Configuration for GPU Tier system 1-3 is Mobile 4-6 is Desktop.
   //Higher values have better graphics processing power.
@@ -66,6 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           {show ? null : "Loading"}
         </h1>
       </div>
+      <UI/>
       <ErrorBoundary fallback={<ErrorMessage />}>
         <CanvasWrapper fwdRef={fwdRef} setReveal={setReveal} />
         <div className="dom">

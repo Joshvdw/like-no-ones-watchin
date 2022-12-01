@@ -6,13 +6,17 @@ interface globalStore {
   setGPUTier: (GPU: number) => void;
   scroll: SpringValue | null;
   setScrollY: (y: SpringValue) => void;
+  animation: any;
+  setAnimation: (func: () => void) => void;
 }
 
 const useStore = create<globalStore>((set) => ({
   GPUTier: 0,
-  setGPUTier: (GPU: number) => set({ GPUTier: GPU }),
+  setGPUTier: (GPU) => set({ GPUTier: GPU }),
   scroll: null,
-  setScrollY: (y: SpringValue) => set({ scroll: y }),
+  setScrollY: (y) => set({ scroll: y }),
+  animation: "singing",
+  setAnimation: (animation) => set({ animation: animation }),
 }));
 
 export default useStore;

@@ -4,10 +4,13 @@ import {
   Circle,
   MeshReflectorMaterial,
   Icosahedron,
+  OrbitControls,
+  Stats,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import useStore from "../singleComponents/Hooks/useStore";
 import { useTimeline } from "../singleComponents/Hooks/useTimeLine";
+import { Brady } from "../canvasComponents/Brady";
 
 export default function ExampleScene(props: {
   setReveal: Dispatch<SetStateAction<boolean>>;
@@ -80,8 +83,11 @@ export default function ExampleScene(props: {
           roughness={1}
         />
       </Circle>
-
-      <Float floatIntensity={3}>
+    <OrbitControls />
+    {/* <Stats /> */}
+      <Brady />
+      {/* <Circle/> */}
+      {/* <Float floatIntensity={3}>
         <Icosahedron
           args={[1.5]}
           castShadow={true}
@@ -103,7 +109,7 @@ export default function ExampleScene(props: {
             roughness={1}
           />
         </Icosahedron>
-      </Float>
+      </Float> */}
 
       <pointLight position={[10, 10, 10]} power={800} />
     </>
