@@ -15,11 +15,19 @@ export function Brady(props) {
   const animationState = useStore((state) => state.animation)
   const previousAnimation = usePrevious(animationState)
 
+  const bradyRef = useRef()
+  // bradyRef.current.position = {x:6,y: -3,z: 6}
+  bradyRef.current.position.y = -1.7
+  bradyRef.current.position.x = animationState == "singing" ? -1.1 : 0
+  // console.log(bradyRef.current.position.x)
+
+  // position={animationState == "singing" ? [-1.1, -1.7, 0] : [0, -1.7, 0]} 
+
   console.log(actions);
 
   useEffect(() => {
   if(previousAnimation) {
-    actions[previousAnimation].fadeOut(0.6)
+    actions[previousAnimation].fadeOut(0.9)
     actions[previousAnimation].stop()
   }
   // if(animationState == "singing") {
@@ -33,7 +41,7 @@ export function Brady(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
-        <group name="brady" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
+        <group name="brady" ref={bradyRef} rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
           <primitive object={nodes.mixamorigHips} />
           <group name="Ch40__mod_FIN__V01_01_Ch40">
             <skinnedMesh name="Mesh" geometry={nodes.Mesh.geometry} material={materials.Ch40_body} skeleton={nodes.Mesh.skeleton} />

@@ -77,7 +77,8 @@ export default function ExampleScene(props: {
           mixBlur={0.75}
           mixStrength={10}
           transparent
-          opacity={0.5}
+          opacity={0.3}
+          // color="#555"
           color="#555"
           metalness={4}
           roughness={1}
