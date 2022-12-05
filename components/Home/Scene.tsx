@@ -6,17 +6,25 @@ import {
   Icosahedron,
   OrbitControls,
   Stats,
+  useHelper,
+  SpotLight,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import useStore from "../singleComponents/Hooks/useStore";
 import { useTimeline } from "../singleComponents/Hooks/useTimeLine";
 import { Brady } from "../canvasComponents/Brady";
+import { SpotLightHelper } from "three";
+import { useControls } from 'leva'
+import Smoke from '../canvasComponents/Smoke'
 
 export default function ExampleScene(props: {
   setReveal: Dispatch<SetStateAction<boolean>>;
 }) {
   let meshRef = useRef<THREE.Mesh>();
   const { viewport, mouse } = useThree();
+
+  const lightRef = useRef<THREE.SpotLight>(null);
+  // useHelper(lightRef, SpotLightHelper, 'red')
 
   //Importing global scroll function
   const scroll = useStore((state) => state.scroll);
@@ -63,6 +71,20 @@ export default function ExampleScene(props: {
   useEffect(() => {
     props.setReveal(true);
   }, []);
+
+  const lightControls = useControls("spotLight", {
+    angle: .3,
+    position: [0,5,0],
+    color: '#FFFFFF',
+    decay: 1,
+    shadow: false,
+    distance: 9,
+    intensity: 100,
+    scale: 1,
+    power: 500,
+    penumbra: 1
+  })
+
   return (
     <>
       <Circle
@@ -74,19 +96,17 @@ export default function ExampleScene(props: {
           resolution={1024}
           blur={[400, 50]}
           mirror={2}
-          mixBlur={0.75}
+          mixBlur={.1}
           mixStrength={10}
           transparent
           opacity={0.3}
-          // color="#555"
           color="#555"
-          metalness={4}
+          metalness={5}
           roughness={1}
         />
       </Circle>
-    <OrbitControls />
-    {/* <Stats /> */}
       <Brady />
+      {/* <Smoke /> */}
       {/* <Circle/> */}
       {/* <Float floatIntensity={3}>
         <Icosahedron
@@ -112,7 +132,24 @@ export default function ExampleScene(props: {
         </Icosahedron>
       </Float> */}
 
-      <pointLight position={[10, 10, 10]} power={800} />
+      {/* DEVELOPMENT */}
+      <OrbitControls />
+      {/* <Stats /> */}
+    {/* LIGHTS */}
+      <spotLight
+       ref={lightRef} 
+       angle={lightControls.angle}
+       position={lightControls.position}
+       color={lightControls.color}
+       decay={lightControls.decay}
+       castShadow={lightControls.shadow}
+       distance={lightControls.distance}
+       intensity={lightControls.intensity}
+       scale={lightControls.scale}
+       power={lightControls.power}
+       penumbra={lightControls.penumbra}
+      />
+      <pointLight position={[10, 10, 10]} power={50} />
     </>
   );
 }

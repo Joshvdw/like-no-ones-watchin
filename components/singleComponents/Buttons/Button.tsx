@@ -17,6 +17,7 @@ const Button = (
   return (
     <div>
       <button
+        className="btn"
         id={props.id}
         //@ts-ignore
         onClick={() => setAnimationState(props.animation)}

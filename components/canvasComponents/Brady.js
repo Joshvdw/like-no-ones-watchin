@@ -17,8 +17,7 @@ export function Brady(props) {
 
   const bradyRef = useRef()
   // bradyRef.current.position = {x:6,y: -3,z: 6}
-  bradyRef.current.position.y = -1.7
-  bradyRef.current.position.x = animationState == "singing" ? -1.1 : 0
+
   // console.log(bradyRef.current.position.x)
 
   // position={animationState == "singing" ? [-1.1, -1.7, 0] : [0, -1.7, 0]} 
@@ -26,6 +25,10 @@ export function Brady(props) {
   console.log(actions);
 
   useEffect(() => {
+    
+  bradyRef.current.position.y = -1.7
+  bradyRef.current.position.x = animationState == "singing" ? -1.1 : 0
+
   if(previousAnimation) {
     actions[previousAnimation].fadeOut(0.9)
     actions[previousAnimation].stop()
