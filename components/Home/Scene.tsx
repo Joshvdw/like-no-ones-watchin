@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import {
   Float,
   Circle,
@@ -8,6 +8,7 @@ import {
   Stats,
   useHelper,
   SpotLight,
+  Plane
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import useStore from "../singleComponents/Hooks/useStore";
@@ -16,6 +17,7 @@ import { Brady } from "../canvasComponents/Brady";
 import { SpotLightHelper } from "three";
 import { useControls } from 'leva'
 import Smoke from '../canvasComponents/Smoke'
+import * as THREE from 'three'
 
 export default function ExampleScene(props: {
   setReveal: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +25,7 @@ export default function ExampleScene(props: {
   let meshRef = useRef<THREE.Mesh>();
   const { viewport, mouse } = useThree();
 
-  const lightRef = useRef<THREE.SpotLight>(null);
+  const lightRef = useRef<THREE.SpotLight>(null!);
   // useHelper(lightRef, SpotLightHelper, 'red')
 
   //Importing global scroll function
@@ -50,7 +52,9 @@ export default function ExampleScene(props: {
   const [timeline, axes] = useTimeline(keyframes);
   const [timeRemap, timeAxe] = useTimeline(remapKeyframes);
 
-  useFrame(() => {
+  const vec = new THREE.Vector3()
+
+  useFrame((state) => {
     if (meshRef.current !== undefined) {
       meshRef.current.rotateY((mouse.x * viewport.width) / 1500);
       meshRef.current.rotateZ((mouse.y * viewport.height) / 1500);
@@ -66,16 +70,48 @@ export default function ExampleScene(props: {
       // @ts-ignore
       // meshRef.current?.rotateY(axes.current.rotation / 1500);
     }
+    if ((lightRef.current !== undefined) && (lightRef.current !== null)) {
+      lightRef.current.target.position.lerp(vec.set((state.mouse.x * viewport.width) / 12, (state.mouse.y * viewport.height) / 12, 0), 0.1)
+      lightRef.current.target.updateMatrixWorld()
+    }
   });
 
   useEffect(() => {
     props.setReveal(true);
   }, []);
 
+  const [renderState, setrenderState] = useState(false)
+
+  setTimeout(() => {
+    setrenderState(true)
+  }, 500);
+
+  const BradyComponent = () => {
+    return renderState ? 
+    <>
+      <Brady />
+      <SpotLight
+        ref={lightRef} 
+        angle={lightControls.angle}
+        position={lightControls.position}
+        color={lightControls.color}
+        decay={lightControls.decay}
+        castShadow={lightControls.shadow}
+        distance={lightControls.distance}
+        intensity={lightControls.intensity}
+        scale={lightControls.scale}
+        power={lightControls.power}
+        penumbra={lightControls.penumbra}
+        attenuation={5}
+        anglePower={4}
+      />
+    </> : <></>
+  }
+
   const lightControls = useControls("spotLight", {
     angle: .3,
     position: [0,5,0],
-    color: '#FFFFFF',
+    color: '#ffffff',
     decay: 1,
     shadow: false,
     distance: 9,
@@ -87,8 +123,8 @@ export default function ExampleScene(props: {
 
   return (
     <>
-      <Circle
-        args={[12.75, 36, 36]}
+      <Plane
+        args={[50, 36, 36]}
         rotation-x={-Math.PI / 2}
         position={[1, -1.7, 0]}
       >
@@ -104,8 +140,11 @@ export default function ExampleScene(props: {
           metalness={5}
           roughness={1}
         />
-      </Circle>
-      <Brady />
+      </Plane>
+      <BradyComponent />
+      {/* <color attach="background" args={['#202020']} /> */}
+      {/* <fog attach="fog" args={['#616161', 5, 30]} /> */}
+    
       {/* <Smoke /> */}
       {/* <Circle/> */}
       {/* <Float floatIntensity={3}>
@@ -133,23 +172,11 @@ export default function ExampleScene(props: {
       </Float> */}
 
       {/* DEVELOPMENT */}
-      <OrbitControls />
+      {/* <OrbitControls /> */}
       {/* <Stats /> */}
     {/* LIGHTS */}
-      <spotLight
-       ref={lightRef} 
-       angle={lightControls.angle}
-       position={lightControls.position}
-       color={lightControls.color}
-       decay={lightControls.decay}
-       castShadow={lightControls.shadow}
-       distance={lightControls.distance}
-       intensity={lightControls.intensity}
-       scale={lightControls.scale}
-       power={lightControls.power}
-       penumbra={lightControls.penumbra}
-      />
-      <pointLight position={[10, 10, 10]} power={50} />
+
+      {/* <pointLight position={[10, 10, 10]} power={50} /> */}
     </>
   );
 }

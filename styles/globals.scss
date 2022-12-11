@@ -32,20 +32,26 @@ a {
 
 .btn_wrapper {
   position: absolute;
-  top: 20%;
+  // top: 20%;
+  // margin: 0 auto;
+  bottom: 0;
   left: 10px;
-  // display: flex;
-  // gap: 10px;
+  display: flex;
+  width: 98%;
+  // justify-content: center;
+  gap: 5px;
 }
 
 .btn {
-  margin-bottom: 10px;
-  border-radius: 5px;
+  // margin-bottom: 10px;
+  // border-radius: 5px;
   width: 75px;
-  border: .5px rgb(168, 165, 165) solid;
-  background: #151515;
+  border: .5px rgb(122, 122, 122) solid;
+  // background: #151515;
+  background: transparent;
   font-weight: 200;
   cursor: pointer;
+  // height: 35px;
 }
 
 h1 {

@@ -27,11 +27,18 @@ export function Brady(props) {
   useEffect(() => {
     
   bradyRef.current.position.y = -1.7
-  bradyRef.current.position.x = animationState == "singing" ? -1.1 : 0
+  // bradyRef.current.position.x = animationState == "singing" ? -1.1 : 0
+    
+  actions['singing'].time = 7.5
 
   if(previousAnimation) {
     actions[previousAnimation].fadeOut(0.9)
     actions[previousAnimation].stop()
+
+    // if (animationState == "singing") {
+    //   actions[animationState].play();
+    //   actions[previousAnimation].crossFadeTo( actions[animationState], 2 );
+    // }
   }
   // if(animationState == "singing") {
   //   actions[animationState].stop()
