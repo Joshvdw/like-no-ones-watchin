@@ -8,7 +8,7 @@ const UI = (props: {reveal: boolean}) => {
     if(props.reveal) {
       setTimeout(() => {
         setrenderState(true)
-      }, 700);
+      }, 300);
     }
   },[props.reveal])
 

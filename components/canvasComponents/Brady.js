@@ -47,7 +47,7 @@ export function Brady(props) {
       //@ts-ignore
       setTimeout(() => {
         singing?.play()
-      }, 200)
+      }, 100)
     }, 50)
   }
 
