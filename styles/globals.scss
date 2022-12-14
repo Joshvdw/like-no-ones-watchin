@@ -1,4 +1,5 @@
 @import "./fonts", "./variables";
+@import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
 
 html,
 body {
@@ -54,9 +55,26 @@ a {
   // height: 35px;
 }
 
+.enter_btn {
+  margin-top: 20px;
+  border: none;
+  border-bottom: .5px rgba(171, 170, 170, 1) solid;
+  background: transparent;
+  color: rgb(226, 224, 224, .85);
+  padding: 5px 5px;
+  cursor: pointer;     
+  outline: none;
+  // font-family: 'Tangerine', serif;
+  // font-size: 32px;
+}
+
+.loader_logo h1 {
+  font-family: 'Nothing You Could Do', cursive;
+}
+
 h1 {
   text-transform: uppercase;
-  letter-spacing: 1rem;
+  // letter-spacing: 1rem;
   color: rgb(210, 210, 228);
   text-align: center;
 }

@@ -21,36 +21,12 @@ import * as THREE from 'three'
 
 export default function ExampleScene(props: {
   setReveal: Dispatch<SetStateAction<boolean>>;
+  reveal: boolean;
 }) {
   let meshRef = useRef<THREE.Mesh>();
   const { viewport, mouse } = useThree();
 
   const lightRef = useRef<THREE.SpotLight>(null!);
-  // useHelper(lightRef, SpotLightHelper, 'red')
-
-  //Importing global scroll function
-  const scroll = useStore((state) => state.scroll);
-
-  const GPUTier = useStore((state) => state.GPUTier);
-
-  //Keyframes for scroll based animations
-  const keyframes = {
-    rotation: [
-      { time: 0, val: 0 },
-      { time: 500, val: -100, easing: "easeInSine" },
-      { time: 1000, val: 100, easing: "easeInSine" },
-    ],
-  };
-
-  const remapKeyframes = {
-    frame: [
-      { time: 0, val: 0 },
-      { time: 1000, val: 1000, easing: "linear" },
-    ],
-  };
-
-  const [timeline, axes] = useTimeline(keyframes);
-  const [timeRemap, timeAxe] = useTimeline(remapKeyframes);
 
   const vec = new THREE.Vector3()
 
@@ -59,32 +35,21 @@ export default function ExampleScene(props: {
       meshRef.current.rotateY((mouse.x * viewport.width) / 1500);
       meshRef.current.rotateZ((mouse.y * viewport.height) / 1500);
     }
-
-    // scrubbing through the keyframes using the interpolated scroll value
-    if (scroll?.animation.changed) {
-      const y = scroll.get()[0];
-      // @ts-ignore
-      timeRemap.seek(timeRemap.duration * y);
-      // @ts-ignore
-      timeline.seek(timeAxe.current.frame);
-      // @ts-ignore
-      // meshRef.current?.rotateY(axes.current.rotation / 1500);
-    }
     if ((lightRef.current !== undefined) && (lightRef.current !== null)) {
       lightRef.current.target.position.lerp(vec.set((state.mouse.x * viewport.width) / 12, (state.mouse.y * viewport.height) / 12, 0), 0.1)
       lightRef.current.target.updateMatrixWorld()
     }
   });
 
-  useEffect(() => {
-    props.setReveal(true);
-  }, []);
-
   const [renderState, setrenderState] = useState(false)
 
-  setTimeout(() => {
-    setrenderState(true)
-  }, 500);
+  useEffect(() => {    
+    if(props.reveal) {
+      setTimeout(() => {
+        setrenderState(true)
+      }, 500);
+    }
+  },[props.reveal])
 
   const BradyComponent = () => {
     return renderState ? 
@@ -142,41 +107,6 @@ export default function ExampleScene(props: {
         />
       </Plane>
       <BradyComponent />
-      {/* <color attach="background" args={['#202020']} /> */}
-      {/* <fog attach="fog" args={['#616161', 5, 30]} /> */}
-    
-      {/* <Smoke /> */}
-      {/* <Circle/> */}
-      {/* <Float floatIntensity={3}>
-        <Icosahedron
-          args={[1.5]}
-          castShadow={true}
-          ref={meshRef}
-          onClick={() => {
-            console.log(mouse);
-          }}
-        >
-          <MeshReflectorMaterial
-            resolution={1024}
-            blur={[400, 50]}
-            mirror={0}
-            mixBlur={0.75}
-            mixStrength={10}
-            transparent
-            opacity={1}
-            color="orange"
-            metalness={2}
-            roughness={1}
-          />
-        </Icosahedron>
-      </Float> */}
-
-      {/* DEVELOPMENT */}
-      {/* <OrbitControls /> */}
-      {/* <Stats /> */}
-    {/* LIGHTS */}
-
-      {/* <pointLight position={[10, 10, 10]} power={50} /> */}
     </>
   );
 }

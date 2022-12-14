@@ -22,6 +22,7 @@ function getMousePos(e: React.MouseEvent<Element, MouseEvent>) {
 export default function CanvasWrapper(props: {
   fwdRef: RefObject<HTMLDivElement | null>;
   setReveal: Dispatch<SetStateAction<boolean>>;
+  reveal: boolean
 }) {
   const GPUTier = useStore((state) => state.GPUTier);
   const mouse = useRef({ x: 0, y: 0 });
@@ -54,7 +55,7 @@ export default function CanvasWrapper(props: {
             ms={250}
             flipflops={10}
           >
-            <ExampleScene setReveal={props.setReveal} />
+            <ExampleScene setReveal={props.setReveal} reveal={props.reveal}/>
             <AdaptPixelRatio />
           </PerformanceMonitor>
           <ImprovedGpu />
