@@ -106,7 +106,23 @@ export default function ExampleScene(props: {
           roughness={1}
         />
       </Plane>
-      <BradyComponent />
+      <Brady/>
+      <SpotLight
+        ref={lightRef} 
+        angle={lightControls.angle}
+        position={lightControls.position}
+        color={lightControls.color}
+        decay={lightControls.decay}
+        castShadow={lightControls.shadow}
+        distance={lightControls.distance}
+        intensity={lightControls.intensity}
+        scale={lightControls.scale}
+        power={lightControls.power}
+        penumbra={lightControls.penumbra}
+        attenuation={5}
+        anglePower={4}
+      />
+      {/* <BradyComponent /> */}
     </>
   );
 }
